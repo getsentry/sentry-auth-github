@@ -5,15 +5,16 @@
 
 {% block title %}{% trans "Login" %} | {{ block.super }}{% endblock %}
 
-{% block wrapperclass %} {{block.super }} auth{% endblock %}
+{% block wrapperclass %}windowed-small{% endblock %}
 
 {% block footer %}{% endblock %}
 
 {% block content %}
-  <h3>Select Organization</h3>
+  <section class="body">
+    <h3>Select Organization</h3>
 
-  <p>Select the GitHub organization in which you want to allow auth.</p>
+    <p>Select the GitHub organization in which you want to allow auth.</p>
 
-  {% include "sentry/partial/_form.html" %}
-
+    {% include "sentry/partial/_form.html" %}
+  </section>
 {% endblock %}
