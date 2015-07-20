@@ -2,11 +2,13 @@ from __future__ import absolute_import, print_function
 
 from collections import namedtuple
 from django.conf import settings
+from sentry.auth.exceptions import IdentityNotValid
 from sentry.auth.providers.oauth2 import (
     OAuth2Callback, OAuth2Provider, OAuth2Login
 )
 from urllib import urlencode
 
+from .client import GitHubApiError, GitHubClient
 from .constants import (
     AUTHORIZE_URL, ACCESS_TOKEN_URL, CLIENT_ID, CLIENT_SECRET, SCOPE
 )
@@ -21,8 +23,8 @@ class GitHubOAuth2Provider(OAuth2Provider):
     client_secret = CLIENT_SECRET
 
     def __init__(self, org=None, **config):
-        self.org = org
         super(GitHubOAuth2Provider, self).__init__(**config)
+        self.org = org
 
     def get_configure_view(self):
         return GitHubConfigureView.as_view()
@@ -74,3 +76,10 @@ class GitHubOAuth2Provider(OAuth2Provider):
             'name': user_data['name'],
             'data': self.get_oauth_data(data),
         }
+
+    def refresh_identity(self, auth_identity):
+        client = GitHubClient(self.client_id, self.client_secret)
+        try:
+            client.get_user(auth_identity.data['access_token'])
+        except GitHubApiError as e:
+            raise IdentityNotValid(e)
