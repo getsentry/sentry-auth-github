@@ -13,18 +13,11 @@ class FetchUser(AuthView):
         self.client = GitHubClient(client_id, client_secret)
         super(FetchUser, self).__init__(*args, **kwargs)
 
-    def is_valid_org(self, org_id, org_list):
-        for o in org_list:
-            if str(o['id']) == org_id:
-                return True
-        return False
-
     def handle(self, request, helper):
         access_token = helper.fetch_state('data')['access_token']
 
         if self.org is not None:
-            org_list = self.client.get_org_list(access_token)
-            if not self.is_valid_org(self.org['id'], org_list):
+            if not self.client.is_org_member(access_token, self.org['id']):
                 return helper.error(ERR_NO_ORG_ACCESS)
 
         user = self.client.get_user(access_token)
