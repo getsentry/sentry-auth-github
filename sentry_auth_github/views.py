@@ -4,7 +4,7 @@ from django import forms
 from sentry.auth.view import AuthView, ConfigureView
 
 from .client import GitHubClient
-from .constants import ERR_NO_ORG_ACCESS
+from .constants import ERR_NO_ORG_ACCESS, ERR_MISSING_EMAIL
 
 
 class FetchUser(AuthView):
@@ -21,6 +21,9 @@ class FetchUser(AuthView):
                 return helper.error(ERR_NO_ORG_ACCESS)
 
         user = self.client.get_user(access_token)
+        # TODO(dcramer): they should be able to enter an email
+        if 'email' not in user:
+            return helper.error(ERR_MISSING_EMAIL)
 
         helper.bind_state('user', user)
 
