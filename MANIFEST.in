@@ -1,0 +1,1 @@
+include sentry_auth_github/templates/sentry_auth_github/*.html
