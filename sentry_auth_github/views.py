@@ -22,7 +22,7 @@ class FetchUser(AuthView):
 
         user = self.client.get_user(access_token)
         # TODO(dcramer): they should be able to enter an email
-        if 'email' not in user:
+        if not user.get('email'):
             return helper.error(ERR_MISSING_EMAIL)
 
         helper.bind_state('user', user)
