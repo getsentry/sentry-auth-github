@@ -20,5 +20,15 @@ Optionally you may also specify the domain (for GHE users):
 
 ::
 
-    GITHUB_DOMAIN = "api.github.com"
+    GITHUB_BASE_DOMAIN = "git.example.com"
 
+    GITHUB_API_DOMAIN = "api.git.example.com"
+
+
+If Subdomain isolation is disabled in GHE:
+
+::
+
+    GITHUB_BASE_DOMAIN = "git.example.com"
+
+    GITHUB_API_DOMAIN = "git.example.com/api/v3"
