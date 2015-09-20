@@ -45,6 +45,9 @@ class GitHubClient(object):
     def get_user(self, access_token):
         return self._request('/user', access_token)
 
+    def get_emails(self, access_token):
+        return self._request('/user/emails', access_token)
+
     def is_org_member(self, access_token, org_id):
         org_list = self.get_org_list(access_token)
         org_id = str(org_id)

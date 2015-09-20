@@ -23,7 +23,12 @@ class FetchUser(AuthView):
         user = self.client.get_user(access_token)
         # TODO(dcramer): they should be able to enter an email
         if not user.get('email'):
-            return helper.error(ERR_MISSING_EMAIL)
+            # User is hiding his email in the profile, so we fetch only the primary one
+            emails = self.client.get_emails(access_token)
+            emails = [entry['email'] for entry in emails if entry['primary']]
+            if not emails:
+                return helper.error(ERR_MISSING_EMAIL)
+            user['email'] = emails[0]
 
         helper.bind_state('user', user)
 
