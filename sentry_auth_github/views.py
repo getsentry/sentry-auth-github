@@ -4,7 +4,12 @@ from django import forms
 from sentry.auth.view import AuthView, ConfigureView
 
 from .client import GitHubClient
-from .constants import ERR_NO_ORG_ACCESS, ERR_MISSING_EMAIL
+from .constants import ERR_NO_ORG_ACCESS
+from .constants import REQUIRE_VERIFIED_EMAIL
+from .constants import (
+    ERR_NO_SINGLE_VERIFIED_PRIMARY_EMAIL, ERR_NO_SINGLE_PRIMARY_EMAIL,
+    ERR_NO_VERIFIED_PRIMARY_EMAIL, ERR_NO_PRIMARY_EMAIL,
+)
 
 
 class FetchUser(AuthView):
@@ -21,14 +26,24 @@ class FetchUser(AuthView):
                 return helper.error(ERR_NO_ORG_ACCESS)
 
         user = self.client.get_user(access_token)
-        # TODO(dcramer): they should be able to enter an email
+
         if not user.get('email'):
-            # User is hiding his email in the profile, so we fetch only the primary one
-            emails = self.client.get_emails(access_token)
-            emails = [entry['email'] for entry in emails if entry['primary']]
-            if not emails:
-                return helper.error(ERR_MISSING_EMAIL)
-            user['email'] = emails[0]
+            emails = self.client.get_user_emails(access_token)
+            email = [e['email'] for e in emails if ((not REQUIRE_VERIFIED_EMAIL) | e['verified']) and e['primary']]
+            if len(email) == 0:
+                if REQUIRE_VERIFIED_EMAIL:
+                    msg = ERR_NO_VERIFIED_PRIMARY_EMAIL
+                else:
+                    msg = ERR_NO_PRIMARY_EMAIL
+                return helper.error(msg)
+            elif len(email) > 1:
+                if REQUIRE_VERIFIED_EMAIL:
+                    msg = ERR_NO_SINGLE_VERIFIED_PRIMARY_EMAIL
+                else:
+                    msg = ERR_NO_SINGLE_PRIMARY_EMAIL
+                return helper.error(msg)
+            else:
+                user['email'] = email[0]
 
         helper.bind_state('user', user)
 
