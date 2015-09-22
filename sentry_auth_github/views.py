@@ -29,7 +29,7 @@ class FetchUser(AuthView):
 
         if not user.get('email'):
             emails = self.client.get_user_emails(access_token)
-            email = [e['email'] for e in emails if (not REQUIRE_VERIFIED_EMAIL | e['verified']) and e['primary']]
+            email = [e['email'] for e in emails if ((not REQUIRE_VERIFIED_EMAIL) | e['verified']) and e['primary']]
             if len(email) == 0:
                 if REQUIRE_VERIFIED_EMAIL:
                     msg = ERR_NO_VERIFIED_PRIMARY_EMAIL
