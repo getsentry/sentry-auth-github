@@ -10,6 +10,8 @@ ERR_NO_ORG_ACCESS = 'You do not have access to the required GitHub organization.
 
 ERR_MISSING_EMAIL = 'We were unable to determine the email address of your GitHub account.'
 
+ERR_MISSING_NAME = 'We were unable to determine your name from your GitHub account.'
+
 # we request repo as we share scopes with the other GitHub integration
 SCOPE = 'user:email,read:org,repo'
 

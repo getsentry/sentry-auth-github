@@ -4,7 +4,7 @@ from django import forms
 from sentry.auth.view import AuthView, ConfigureView
 
 from .client import GitHubClient
-from .constants import ERR_NO_ORG_ACCESS, ERR_MISSING_EMAIL
+from .constants import ERR_NO_ORG_ACCESS, ERR_MISSING_EMAIL, ERR_MISSING_NAME
 
 
 class FetchUser(AuthView):
@@ -29,6 +29,10 @@ class FetchUser(AuthView):
             if not emails:
                 return helper.error(ERR_MISSING_EMAIL)
             user['email'] = emails[0]
+
+        # A user hasn't set their name in their Github profile so it isn't populated in the response
+        if not user.get('name'):
+            return helper.error(ERR_MISSING_NAME)
 
         helper.bind_state('user', user)
 
