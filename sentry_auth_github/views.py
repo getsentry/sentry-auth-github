@@ -6,8 +6,10 @@ from sentry.auth.view import AuthView, ConfigureView
 from .client import GitHubClient
 from .constants import ERR_NO_ORG_ACCESS
 from .constants import REQUIRE_VERIFIED_EMAIL
-from .constants import ERR_NO_SINGLE_VERIFIED_PRIMARY_EMAIL
-from .constants import ERR_NO_VERIFIED_PRIMARY_EMAIL
+from .constants import (
+    ERR_NO_SINGLE_VERIFIED_PRIMARY_EMAIL, ERR_NO_SINGLE_PRIMARY_EMAIL,
+    ERR_NO_VERIFIED_PRIMARY_EMAIL, ERR_NO_PRIMARY_EMAIL
+)
 
 
 class FetchUser(AuthView):
@@ -29,9 +31,17 @@ class FetchUser(AuthView):
             emails = self.client.get_user_emails(access_token)
             email = [e['email'] for e in emails if (not REQUIRE_VERIFIED_EMAIL | e['verified']) and e['primary']]
             if len(email) == 0:
-                return helper.error(ERR_NO_VERIFIED_PRIMARY_EMAIL)
+                if REQUIRE_VERIFIED_EMAIL:
+                    msg = ERR_NO_VERIFIED_PRIMARY_EMAIL
+                else:
+                    msg = ERR_NO_PRIMARY_EMAIL
+                return helper.error(msg)
             elif len(email) > 1:
-                return helper.error(ERR_NO_SINGLE_VERIFIED_PRIMARY_EMAIL)
+                if REQUIRE_VERIFIED_EMAIL:
+                    msg = ERR_NO_SINGLE_VERIFIED_PRIMARY_EMAIL
+                else:
+                    msg = ERR_NO_SINGLE_PRIMARY_EMAIL
+                return helper.error(msg)
             else:
                 user['email'] = email[0]
 
