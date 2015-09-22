@@ -8,7 +8,9 @@ CLIENT_SECRET = getattr(settings, 'GITHUB_API_SECRET', None)
 
 ERR_NO_ORG_ACCESS = 'You do not have access to the required GitHub organization.'
 
-ERR_MISSING_EMAIL = 'We were unable to determine the email address of your GitHub account.'
+ERR_NO_VERIFIED_PRIMARY_EMAIL = 'We were unable to find a verified, primary email address associated with your GitHub acount.'
+
+ERR_NO_SINGLE_VERIFIED_PRIMARY_EMAIL = 'We were unable to find a *single* verified, primary email address associated with your GitHub acount.'
 
 # we request repo as we share scopes with the other GitHub integration
 SCOPE = 'user:email,read:org,repo'
