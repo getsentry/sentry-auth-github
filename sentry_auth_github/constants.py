@@ -6,6 +6,8 @@ CLIENT_ID = getattr(settings, 'GITHUB_APP_ID', None)
 
 CLIENT_SECRET = getattr(settings, 'GITHUB_API_SECRET', None)
 
+REQUIRE_VERIFIED_EMAIL = getattr(settings, 'GITHUB_REQUIRE_VERIFIED_EMAIL', False)
+
 ERR_NO_ORG_ACCESS = 'You do not have access to the required GitHub organization.'
 
 ERR_NO_VERIFIED_PRIMARY_EMAIL = 'We were unable to find a verified, primary email address associated with your GitHub acount.'
