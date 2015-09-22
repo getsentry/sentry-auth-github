@@ -7,6 +7,15 @@ from .client import GitHubClient
 from .constants import ERR_NO_ORG_ACCESS, ERR_MISSING_EMAIL, ERR_MISSING_NAME
 
 
+def _get_name_from_email(email):
+    """
+    Given an email return a capitalized name. Ex. john.smith@example.com would return John Smith.
+    """
+    name = email.rsplit('@', 1)[0]
+    name = ' '.join([n_part.capitalize() for n_part in name.split('.')])
+    return name
+
+
 class FetchUser(AuthView):
     def __init__(self, client_id, client_secret, org=None, *args, **kwargs):
         self.org = org
@@ -32,7 +41,7 @@ class FetchUser(AuthView):
 
         # A user hasn't set their name in their Github profile so it isn't populated in the response
         if not user.get('name'):
-            return helper.error(ERR_MISSING_NAME)
+            user['name'] = _get_name_from_email(user['email'])
 
         helper.bind_state('user', user)
 
