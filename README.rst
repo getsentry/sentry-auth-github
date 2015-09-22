@@ -15,6 +15,11 @@ Once the package is installed, you'll need to configure the following settings:
 
     GITHUB_API_SECRET = ""
 
+Verified email addresses can optionally be required:
+
+::
+
+    GITHUB_REQUIRE_VERIFIED_EMAIL = True
 
 Optionally you may also specify the domain (for GHE users):
 
