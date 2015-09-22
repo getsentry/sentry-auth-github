@@ -4,7 +4,7 @@ from django import forms
 from sentry.auth.view import AuthView, ConfigureView
 
 from .client import GitHubClient
-from .constants import ERR_NO_ORG_ACCESS, ERR_MISSING_EMAIL, ERR_MISSING_NAME
+from .constants import ERR_NO_ORG_ACCESS, ERR_MISSING_EMAIL
 
 
 def _get_name_from_email(email):
