@@ -12,7 +12,9 @@ from .client import GitHubApiError, GitHubClient
 from .constants import (
     AUTHORIZE_URL, ACCESS_TOKEN_URL, CLIENT_ID, CLIENT_SECRET, SCOPE
 )
-from .views import FetchUser, SelectOrganization, GitHubConfigureView
+from .views import (
+    ConfirmEmail, FetchUser, SelectOrganization, GitHubConfigureView
+)
 
 
 class GitHubOAuth2Provider(OAuth2Provider):
@@ -46,6 +48,7 @@ class GitHubOAuth2Provider(OAuth2Provider):
                 client_secret=self.client_secret,
                 org=self.org,
             ),
+            ConfirmEmail(),
         ]
 
     def get_setup_pipeline(self):
