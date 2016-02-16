@@ -3,29 +3,29 @@
 sentry-auth-github
 ==================
 
-:copyright: (c) 2015 Functional Software, Inc
+:copyright: (c) 2016 Functional Software, Inc
 """
 from setuptools import setup, find_packages
 
 
-tests_require = [
-    'pytest',
-    'mock',
+install_requires = [
+    'sentry>=7.0.0',
 ]
 
-install_requires = [
-    'sentry',
+tests_require = [
+    'mock',
+    'flake8>=2.0,<2.1',
 ]
 
 setup(
     name='sentry-auth-github',
     version='0.1.0',
-    author='David Cramer',
-    author_email='dcramer@gmail.com',
+    author='Sentry',
+    author_email='support@getsentry.com',
     url='https://www.getsentry.com',
     description='GitHub authentication provider for Sentry',
     long_description=__doc__,
-    license='',
+    license='Apache 2.0',
     packages=find_packages(exclude=['tests']),
     zip_safe=False,
     install_requires=install_requires,
@@ -35,7 +35,7 @@ setup(
     entry_points={
         'sentry.apps': [
             'auth_github = sentry_auth_github',
-         ],
+        ],
     },
     classifiers=[
         'Intended Audience :: Developers',

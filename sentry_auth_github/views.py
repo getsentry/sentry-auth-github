@@ -102,6 +102,7 @@ class ConfirmEmail(AuthView):
             'form': form,
         })
 
+
 class SelectOrganizationForm(forms.Form):
     org = forms.ChoiceField(label='Organization')
 

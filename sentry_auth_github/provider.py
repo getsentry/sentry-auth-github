@@ -1,12 +1,9 @@
 from __future__ import absolute_import, print_function
 
-from collections import namedtuple
-from django.conf import settings
 from sentry.auth.exceptions import IdentityNotValid
 from sentry.auth.providers.oauth2 import (
     OAuth2Callback, OAuth2Provider, OAuth2Login
 )
-from urllib import urlencode
 
 from .client import GitHubApiError, GitHubClient
 from .constants import (
@@ -86,6 +83,6 @@ class GitHubOAuth2Provider(OAuth2Provider):
 
         try:
             if not client.is_org_member(access_token, self.org['id']):
-                raise IdentityNotValid(e)
+                raise IdentityNotValid
         except GitHubApiError as e:
             raise IdentityNotValid(e)
