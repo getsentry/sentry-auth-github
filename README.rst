@@ -21,7 +21,7 @@ callback URL** as the prefix to your Sentry installation:
     https://example.sentry.com
 
 
-Once done, grab your API keys and drop them in your ``sentry.conf.py:
+Once done, grab your API keys and drop them in your `sentry.conf.py`:
 
 .. code-block:: python
 
