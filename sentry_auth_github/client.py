@@ -36,6 +36,8 @@ class GitHubClient(object):
             )
         except RequestException as e:
             raise GitHubApiError(unicode(e), status=e.status_code)
+        if req.status_code < 200 or req.status_code >= 300:
+            raise GitHubApiError(req.content, status=req.status_code)
         return json.loads(req.content)
 
     def get_org_list(self, access_token):
