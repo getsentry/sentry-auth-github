@@ -8,7 +8,7 @@ from .constants import API_DOMAIN
 
 
 class GitHubApiError(Exception):
-    def __init__(self, message='', status=None):
+    def __init__(self, message='', status=0):
         super(GitHubApiError, self).__init__(message)
         self.status = status
 
@@ -35,7 +35,7 @@ class GitHubClient(object):
                 headers=headers,
             )
         except RequestException as e:
-            raise GitHubApiError(unicode(e), status=e.status_code)
+            raise GitHubApiError(unicode(e), status=getattr(e, 'status_code', 0))
         if req.status_code < 200 or req.status_code >= 300:
             raise GitHubApiError(req.content, status=req.status_code)
         return json.loads(req.content)
