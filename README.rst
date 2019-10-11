@@ -23,11 +23,12 @@ User authorization callback URL  https://example.sentry.com/auth/sso
 Webhook URL                      https://example.sentry.com/extensions/github/webhook/
 ===============================  =====================================================
 
-========================  ===================
+========================  ===========================
 Permissions               Access
-========================  ===================
+========================  ===========================
 Organization permissions  Members - Read-only
-========================  ===================
+User permissions          Email addresses - Read-only
+========================  ===========================
 
 Afterwards, you will need to `install the GitHub app`__ on your organization.
 
