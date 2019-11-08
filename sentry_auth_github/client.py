@@ -54,6 +54,6 @@ class GitHubClient(object):
         org_list = self.get_org_list(access_token)
         org_id = six.binary_type(org_id)
         for o in org_list:
-            if six.binary_type((o['id']) == org_id:
+            if six.binary_type((o['id'])) == org_id:
                 return True
         return False
