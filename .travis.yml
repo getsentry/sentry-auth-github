@@ -10,6 +10,11 @@ services:
   - memcached
   - postgresql
   - redis-server
+addons:
+  apt:
+    update: true
+    packages:
+      - libxmlsec1-dev
 
 matrix:
   fast_finish: true
