@@ -1,5 +1,6 @@
-from __future__ import absolute_import, print_function
+from __future__ import absolute_import
 
+import six
 from requests.exceptions import RequestException
 from sentry import http
 from sentry.utils import json
@@ -35,7 +36,7 @@ class GitHubClient(object):
                 headers=headers,
             )
         except RequestException as e:
-            raise GitHubApiError(unicode(e), status=getattr(e, 'status_code', 0))
+            raise GitHubApiError(six.text_type(e), status=getattr(e, 'status_code', 0))
         if req.status_code < 200 or req.status_code >= 300:
             raise GitHubApiError(req.content, status=req.status_code)
         return json.loads(req.content)
@@ -51,8 +52,8 @@ class GitHubClient(object):
 
     def is_org_member(self, access_token, org_id):
         org_list = self.get_org_list(access_token)
-        org_id = str(org_id)
+        org_id = six.binary_type(org_id)
         for o in org_list:
-            if str(o['id']) == org_id:
+            if six.binary_type((o['id']) == org_id:
                 return True
         return False

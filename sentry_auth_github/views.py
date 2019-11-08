@@ -1,5 +1,6 @@
-from __future__ import absolute_import, print_function
+from __future__ import absolute_import
 
+import six
 from django import forms
 from sentry.auth.view import AuthView, ConfigureView
 from sentry.models import AuthIdentity
@@ -127,7 +128,7 @@ class SelectOrganization(AuthView):
         form = SelectOrganizationForm(org_list, request.POST or None)
         if form.is_valid():
             org_id = form.cleaned_data['org']
-            org = [o for o in org_list if org_id == str(o['id'])][0]
+            org = [o for o in org_list if org_id == six.binary_type(o['id'])][0]
             helper.bind_state('org', org)
             return helper.next_step()
 
