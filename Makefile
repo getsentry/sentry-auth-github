@@ -23,7 +23,7 @@ lint:
 
 test:
 	@echo "--> Running Python tests"
-	py.test tests || exit 1
+	py.test --cov . tests || exit 1
 	@echo ""
 
 publish:

@@ -18,14 +18,15 @@ matrix:
       install:
         - make ci-install-tests-sentry-latest
       script:
-        - coverage run --source=. -m make test
+        - make test
     - name: 'Tests (sentry git)'
       install:
         - make ci-install-tests-sentry-git
       script:
-        - coverage run --source=. -m make test
+        - make test
 
 after_success:
+  - pip install codecov
   - codecov
 
 deploy:

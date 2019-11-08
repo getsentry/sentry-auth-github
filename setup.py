@@ -15,6 +15,11 @@ install_requires = [
     'sentry>=9.0.0',
 ]
 
+test_requires = [
+    "pytest==4.6.5",
+    "pytest-cov==2.5.1",
+]
+
 setup(
     name='sentry-auth-github',
     version='0.1.0',
@@ -28,7 +33,7 @@ setup(
     zip_safe=False,
     install_requires=install_requires,
     extras_require={
-        'tests': [],
+        'tests': test_requires,
     },
     include_package_data=True,
     entry_points={
