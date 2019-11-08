@@ -1,11 +1,19 @@
 .PHONY: clean develop install-tests lint publish test
 
-develop:
-	pip install "pip>=7"
-	pip install -e .
-	make install-tests
+install-pip:
+	pip install "pip==19.2.3"
 
-install-tests:
+develop: install-pip
+	SENTRY_LIGHT_BUILD=1 pip install --no-use-pep517 -e "../sentry[dev]"
+	pip install -e .[tests]
+
+ci-install-tests-sentry-git: install-pip
+	pip install --no-use-pep517 'git+https://github.com/getsentry/sentry.git#egg=sentry[dev]'
+	pip install .[tests]
+
+ci-install-tests-sentry-latest: install-pip
+	# Note that requirements-test (setuptools tests_require) is in 9.1.2 but was removed in git.
+	pip install --no-use-pep517 'sentry[dev,tests]'
 	pip install .[tests]
 
 lint:

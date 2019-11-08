@@ -9,12 +9,7 @@ from setuptools import setup, find_packages
 
 
 install_requires = [
-    'sentry>=7.0.0',
-]
-
-tests_require = [
-    'mock',
-    'flake8>=2.0,<2.1',
+    'sentry>=9.0.0',
 ]
 
 setup(
@@ -29,8 +24,9 @@ setup(
     packages=find_packages(exclude=['tests']),
     zip_safe=False,
     install_requires=install_requires,
-    tests_require=tests_require,
-    extras_require={'tests': tests_require},
+    extras_require={
+        'tests': [],
+    },
     include_package_data=True,
     entry_points={
         'sentry.apps': [
