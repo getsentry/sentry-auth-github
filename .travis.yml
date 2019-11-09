@@ -1,15 +1,46 @@
-sudo: false
+dist: xenial
 language: python
-services:
-  - memcached
-  - postgresql
-  - redis-server
 python:
   - '2.7'
 cache:
   directories:
     - node_modules
     - "$HOME/.cache/pip"
+services:
+  - memcached
+  - postgresql
+  - redis-server
+addons:
+  apt:
+    update: true
+    packages:
+      - libxmlsec1-dev
+
+before_script:
+  - psql -c 'create database sentry;' -U postgres
+
+matrix:
+  fast_finish: true
+  include:
+    - name: 'Linter'
+      script:
+        - pip install 'sentry-flake8==0.1.1'
+        - make lint
+    - name: 'Tests (sentry latest release)'
+      install:
+        - make ci-install-tests-sentry-latest
+      script:
+        - make test
+    - name: 'Tests (sentry git)'
+      install:
+        - make ci-install-tests-sentry-git
+      script:
+        - make test
+
+after_success:
+  - pip install codecov
+  - codecov
+
 deploy:
   provider: pypi
   user: getsentry
@@ -18,15 +49,3 @@ deploy:
   on:
     tags: true
   distributions: sdist bdist_wheel
-env:
-  global:
-    - PIP_DOWNLOAD_CACHE=".pip_download_cache"
-before_install:
-  - pip install codecov
-install:
-  - make develop
-script:
-  - PYFLAKES_NODOCTEST=1 flake8
-  - coverage run --source=. -m py.test tests
-after_success:
-  - codecov
