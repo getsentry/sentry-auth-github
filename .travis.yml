@@ -16,6 +16,9 @@ addons:
     packages:
       - libxmlsec1-dev
 
+before_script:
+  - psql -c 'create database sentry;' -U postgres
+
 matrix:
   fast_finish: true
   include:
