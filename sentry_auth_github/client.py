@@ -52,8 +52,8 @@ class GitHubClient(object):
 
     def is_org_member(self, access_token, org_id):
         org_list = self.get_org_list(access_token)
-        org_id = six.binary_type(org_id)
+        org_id = six.text_type(org_id)
         for o in org_list:
-            if six.binary_type((o['id'])) == org_id:
+            if six.text_type((o['id'])) == org_id:
                 return True
         return False
