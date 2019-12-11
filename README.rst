@@ -13,21 +13,32 @@ Install
 Setup
 -----
 
-Create a new application under your organization in GitHub. Enter the **Authorization
-callback URL** as the prefix to your Sentry installation:
+Create a new application under your organization in GitHub with at least the following configured. Example values given use `https://example.sentry.com` for the Sentry URL prefix and should be replaced with whatever hostname you use to access Sentry.
 
-::
+===============================  =====================================================
+App Option                       Value
+===============================  =====================================================
+Homepage URL                     https://example.sentry.com
+User authorization callback URL  https://example.sentry.com/auth/sso
+Webhook URL                      https://example.sentry.com/extensions/github/webhook/
+===============================  =====================================================
 
-    https://example.sentry.com
+========================  ===========================
+Permissions               Access
+========================  ===========================
+Organization permissions  Members - Read-only
+User permissions          Email addresses - Read-only
+========================  ===========================
 
+Afterwards, you will need to `install the GitHub app`__ on your organization.
 
-Once done, grab your API keys and drop them in your ``sentry.conf.py``:
+Once done, you will need the app's `Client ID` and `Client secret` to add them in your ``sentry.conf.py``:
 
 .. code-block:: python
 
-    GITHUB_APP_ID = ""
+    GITHUB_APP_ID = "" # client id
 
-    GITHUB_API_SECRET = ""
+    GITHUB_API_SECRET = "" # client secret
 
 
 Verified email addresses can optionally be required:
@@ -53,3 +64,5 @@ If Subdomain isolation is disabled in GHE:
     GITHUB_BASE_DOMAIN = "git.example.com"
 
     GITHUB_API_DOMAIN = "git.example.com/api/v3"
+
+__ https://developer.github.com/apps/installing-github-apps/#installing-your-private-github-app-on-your-repository
