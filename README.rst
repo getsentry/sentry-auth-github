@@ -1,5 +1,6 @@
 GitHub Auth for Sentry
 ======================
+DEPRECATED: This project now lives in `sentry <https://github.com/getsentry/sentry/tree/master/src/sentry/auth/providers/github>`_
 
 An SSO provider for Sentry which enables GitHub organization-restricted authentication.
 
